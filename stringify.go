@@ -1,6 +1,9 @@
 package stringify
 
-import "fmt"
+import (
+	"fmt"
+	"math/big"
+)
 
 func Stringify(src, dest interface{}) error {
 	return fmt.Errorf("TODO")
@@ -27,14 +30,20 @@ func StringifyMap(src, dest map[string]interface{}) error {
 			// ..
 		case []byte:
 			dest[k] = string(t)
+		case []*big.Int:
+			s := []string{}
+			for _, v := range t {
+				s = append(s, v.String())
+			}
+			dest[k] = s
 		default:
-			// return fmt.Errorf("StringifyMap: unknown type '%T'", t)
-			dest[k] = fmt.Sprintf("%v", t)
+			return fmt.Errorf("StringifyMap: unknown type '%T'", t)
+			// dest[k] = fmt.Sprintf("%v", t)
 		}
 	}
 	return nil
 }
 
-func StringifyArray(src, dest []interface{}) error {
+func StringifyArray(src, dest interface{}) error {
 	return fmt.Errorf("TODO")
 }
